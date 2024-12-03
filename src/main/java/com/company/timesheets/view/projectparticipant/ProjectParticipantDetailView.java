@@ -11,6 +11,7 @@ import io.jmix.flowui.view.*;
 @ViewController("ts_ProjectParticipant.detail")
 @ViewDescriptor("project-participant-detail-view.xml")
 @EditedEntityContainer("projectParticipantDc")
+@DialogMode(width = "30em")
 public class ProjectParticipantDetailView extends StandardDetailView<ProjectParticipant> {
 
     @ViewComponent

@@ -6,7 +6,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.Email;
 
-@JmixEntity(name = "ts_NewEntity")
+@JmixEntity(name = "ts_ContactInformation")
 @Embeddable
 public class ContactInformation {
     @Email

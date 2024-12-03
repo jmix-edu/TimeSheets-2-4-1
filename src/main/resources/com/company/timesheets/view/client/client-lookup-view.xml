@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://clientLookupView.title"
+      focusComponent="clientsDataGrid">
+    <data>
+        <collection id="clientsDc"
+                    class="com.company.timesheets.entity.Client">
+            <fetchPlan>
+                <property name="name"/>
+            </fetchPlan>
+            <loader id="clientsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from ts_Client e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <propertyFilter id="nameFilter"
+                            property="name"
+                            operation="CONTAINS"
+                            dataLoader="clientsDl"
+                            labelVisible="false"
+                            width="100%" maxWidth="30em">
+                <textField id="nameFilterField" placeholder="msg://findAClient.placeholder"
+                           clearButtonVisible="true">
+                    <prefix>
+                        <icon icon="SEARCH"/>
+                    </prefix>
+                </textField>
+            </propertyFilter>
+            <simplePagination id="pagination" dataLoader="clientsDl"/>
+        </hbox>
+        <dataGrid id="clientsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="clientsDc">
+            <actions>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
