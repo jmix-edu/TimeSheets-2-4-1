@@ -23,6 +23,7 @@
             <button id="editBtn" action="timeEntriesDataGrid.edit"/>
             <button id="removeBtn" action="timeEntriesDataGrid.remove"/>
             <button id="copyBtn" action="timeEntriesDataGrid.copy"/>
+            <button id="asyncBtn" text="Async stuff button"/>
             <simplePagination id="pagination" dataLoader="timeEntriesDl"/>
         </hbox>
         <dataGrid id="timeEntriesDataGrid"

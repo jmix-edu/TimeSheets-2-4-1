@@ -46,6 +46,7 @@
             <entityComboBox id="roleField" property="role"
                             itemsContainer="projectRolesDc">
                 <actions>
+                    <action id="entityCreate" text="msg:///actions.Create" icon="PLUS"/>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>

@@ -3,6 +3,8 @@
 
     <menu id="timesheets" title="msg://com.company.timesheets/menu.timesheets.title" opened="true">
         <item view="ts_TimeEntry.my" title="msg://com.company.timesheets.view.timeentry/myTimeEntryListView.title"/>
+        <item view="ts_Task.my" description="msg://com.company.timesheets/menu_config.ts_Task.my.description"
+              title="msg://com.company.timesheets/menu_config.ts_Task.my.title"/>
     </menu>
 
     <menu id="projects" title="msg://com.company.timesheets/menu.projects.title" opened="true"> <!-- Project Management -->

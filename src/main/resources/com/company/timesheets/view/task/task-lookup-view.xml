@@ -11,10 +11,42 @@
             </fetchPlan>
             <loader id="tasksDl" readOnly="true">
                 <query>
-                    <![CDATA[select e from ts_Task e order by e.project.name asc, e.name asc]]>
+                    <![CDATA[select e from ts_Task e
+                     where e.project.status = @enum(com.company.timesheets.entity.ProjectStatus.OPEN)
+                           and e.status = @enum(com.company.timesheets.entity.TaskStatus.ACTIVE)
+                     order by e.project.name asc, e.name asc]]>
+                <condition>
+                    <and>
+                        <c:jpql>
+                            <c:where>
+                                (select pp from ts_ProjectParticipant pp where pp.user = :user) MEMBER OF e.project.participants
+                            </c:where>
+                        </c:jpql>
+                    </and>
+                </condition>
                 </query>
             </loader>
         </collection>
+        <collection id="projectsDc" class="com.company.timesheets.entity.Project">
+            <loader id="projectsDl" readOnly="true">
+                <query>
+                    <![CDATA[select distinct e from ts_Project e
+                         where e.status = @enum(com.company.timesheets.entity.ProjectStatus.OPEN)
+                         order by e.name asc]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>
+                                    (select pp from ts_ProjectParticipant pp where pp.user = :user) MEMBER OF e.participants
+                                </c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -24,10 +56,37 @@
         <action id="discardAction" type="lookup_discard"/>
     </actions>
     <layout>
-        <genericFilter id="genericFilter"
-                       dataLoader="tasksDl">
-            <properties include=".*"/>
-        </genericFilter>
+        <formLayout id="filterLayout">
+            <propertyFilter id="projectFilter"
+                            dataLoader="tasksDl" property="project"
+                            operation="EQUAL"
+                            labelVisible="false">
+                <entityComboBox id="projectFilterField"
+                                metaClass="ts_Project"
+                                itemsContainer="projectsDc"
+                                placeholder="msg://projectFilter.placeholder">
+                    <actions>
+                        <action id="clear" type="entity_clear"/>
+                    </actions>
+                    <prefix>
+                        <icon icon="SEARCH"/>
+                    </prefix>
+                </entityComboBox>
+            </propertyFilter>
+
+            <propertyFilter id="nameFilter"
+                            dataLoader="tasksDl" property="name"
+                            operation="CONTAINS"
+                            labelVisible="false">
+                <textField id="nameFilterField"
+                           placeholder="msg://nameFilter.placeholder"
+                clearButtonVisible="true">
+                <prefix>
+                    <icon icon="SEARCH"/>
+                </prefix>
+            </textField>
+        </propertyFilter>
+    </formLayout>
 
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <simplePagination id="pagination" dataLoader="tasksDl"/>
