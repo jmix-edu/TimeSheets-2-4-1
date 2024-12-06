@@ -10,17 +10,17 @@
             </fetchPlan>
             <loader/>
         </instance>
-        <collection id="tasksDc" class="com.company.timesheets.entity.Task">
-            <loader id="tasksDl" readOnly="true">
-                <query>
-                    <![CDATA[select e from ts_Task e where e.project.status = @enum(com.company.timesheets.entity.ProjectStatus.OPEN)
-                      and e.status = @enum(com.company.timesheets.entity.TaskStatus.ACTIVE)
-                      and (select pp from ts_ProjectParticipant pp where pp.user.username = :username) MEMBER OF e.project.participants
-                order by e.project.name asc, e.name asc]]>
-                </query>
-            </loader>
-            <fetchPlan extends="_base"/>
-        </collection>
+<!--        <collection id="tasksDc" class="com.company.timesheets.entity.Task">-->
+<!--            <loader id="tasksDl" readOnly="true">-->
+<!--                <query>-->
+<!--                    <![CDATA[select e from ts_Task e where e.project.status = @enum(com.company.timesheets.entity.ProjectStatus.OPEN)-->
+<!--                      and e.status = @enum(com.company.timesheets.entity.TaskStatus.ACTIVE)-->
+<!--                      and (select pp from ts_ProjectParticipant pp where pp.user.username = :username) MEMBER OF e.project.participants-->
+<!--                order by e.project.name asc, e.name asc]]>-->
+<!--                </query>-->
+<!--            </loader>-->
+<!--            <fetchPlan extends="_base"/>-->
+<!--        </collection>-->
 
     </data>
     <facets>
@@ -48,7 +48,7 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <entityComboBox id="taskField" property="task" itemsContainer="tasksDc">
+            <entityComboBox id="taskField" property="task">
                 <prefix>
                     <icon icon="FILE_TEXT_O"/>
                 </prefix>

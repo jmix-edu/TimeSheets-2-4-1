@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://userListViewSimple.title"
+      focusComponent="usersDataGrid">
+    <data>
+        <collection id="usersDc"
+                    class="com.company.timesheets.entity.User">
+            <fetchPlan extends="_instance_name"/>
+            <loader id="usersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from ts_User e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <propertyFilter component="filter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <propertyFilter id="filter"
+                        dataLoader="usersDl" property="username"
+                        operation="CONTAINS"
+                        labelVisible="false"
+                        width="100%" maxWidth="30em">
+            <textField id="filterField"
+                       placeholder="Start typing..."
+                       clearButtonVisible="true">
+                <prefix>
+                    <icon icon="SEARCH"/>
+                </prefix>
+            </textField>
+        </propertyFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="readButton" action="usersDataGrid.read"/>
+            <simplePagination id="pagination" dataLoader="usersDl"/>
+        </hbox>
+        <dataGrid id="usersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="usersDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="read" type="list_read"/>
+            </actions>
+            <columns resizable="true">
+                <column property="username"/>
+                <column property="firstName"/>
+                <column property="lastName"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

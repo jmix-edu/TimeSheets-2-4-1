@@ -17,6 +17,7 @@ import io.jmix.flowui.app.inputdialog.InputDialog;
 import io.jmix.flowui.app.inputdialog.InputParameter;
 import io.jmix.flowui.asynctask.UiAsyncTasks;
 import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.facet.Timer;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
@@ -105,4 +106,18 @@ public class MyTimeEntriesListView extends StandardView {
 //        notifications.show("Stuff is done!");
         return ("Performed string result is: " + toPerform.toUpperCase());
     }
+
+//    int seconds = 0;
+
+//    @Subscribe("timer")
+//    public void onTimerTimerAction(final Timer.TimerActionEvent event) {
+//
+//        seconds += event.getSource().getDelay() / 1000;
+//        notifications.show("Timer tick", seconds + " seconds passed");
+//    }
+//
+//    @Subscribe("timer")
+//    public void onTimerTimerStop(final Timer.TimerStopEvent event) {
+//        notifications.show("Timer stopped");
+//    }
 }

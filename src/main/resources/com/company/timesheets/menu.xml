@@ -22,5 +22,6 @@
 
     <menu id="administration" title="msg://com.company.timesheets/menu.administration.title" opened="true"> <!-- Administration -->
         <item view="ts_User.list" title="msg://com.company.timesheets.view.user/UserListView.title"/>
+        <item view="ts_User.simple-list" title="msg://com.company.timesheets.view.user/userListViewSimple.title"/>
     </menu>
 </menu-config>

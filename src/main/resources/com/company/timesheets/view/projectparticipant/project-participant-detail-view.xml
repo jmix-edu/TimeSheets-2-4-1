@@ -20,6 +20,15 @@
                 </query>
             </loader>
         </collection>
+<!--        <collection id="usersDc" class="com.company.timesheets.entity.User">-->
+<!--            <loader id="usersDl" readOnly="true">-->
+<!--                <query>-->
+<!--                    <![CDATA[select e from ts_User e]]>-->
+<!--                </query>-->
+<!--            </loader>-->
+<!--            <fetchPlan extends="_base"/>-->
+<!--        </collection>-->
+
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -31,12 +40,24 @@
     <layout>
         <formLayout id="form"
                     dataContainer="projectParticipantDc">
-            <entityPicker id="userField" property="user">
+            <entityComboBox id="userField" property="user">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
-            </entityPicker>
+                <itemsQuery class="com.company.timesheets.entity.User"
+                searchStringFormat="(?i)%${inputString}%"
+                escapeValueForLike="true">
+                    <fetchPlan extends="_base"/>
+                    <query>
+                       select e from ts_User e
+                        where e.username like :searchString
+                        or e.firstName like :searchString
+                        or e.lastName like :searchString
+                        escape '\' order by e.username asc
+                    </query>
+                </itemsQuery>
+            </entityComboBox>
             <entityPicker id="projectField" property="project">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
