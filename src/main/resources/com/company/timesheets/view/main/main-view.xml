@@ -12,6 +12,7 @@
                               themeNames="contrast"
                               ariaLabel="msg://drawerToggle.ariaLabel"/>
                 <h1 id="viewTitle" classNames="jmix-main-view-title"/>
+                <component class="com.company.timesheets.component.themetoggle.ThemeToggle" />
             </header>
         </navigationBar>
         <drawerLayout>

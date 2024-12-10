@@ -1,14 +1,26 @@
 package com.company.timesheets.view.project;
 
-import com.company.timesheets.entity.Project;
-import com.company.timesheets.entity.ProjectParticipant;
-import com.company.timesheets.entity.Task;
+import com.company.timesheets.entity.*;
 import com.company.timesheets.view.main.MainView;
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import io.jmix.core.DataManager;
+import io.jmix.core.MetadataTools;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.Notifications;
+import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.component.tabsheet.JmixTabSheet;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.action.BaseAction;
@@ -16,6 +28,9 @@ import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
+
+import java.io.ByteArrayInputStream;
 
 @Route(value = "projects/:id", layout = MainView.class)
 @ViewController("ts_Project.detail")
@@ -41,6 +56,12 @@ public class ProjectDetailView extends StandardDetailView<Project> {
     private CollectionLoader<Task> tasksDl;
     @ViewComponent
     private CollectionLoader<ProjectParticipant> projectParticipantsDl;
+    @ViewComponent
+    private JmixSelect<ProjectStatus> statusField;
+    @Autowired
+    private UiComponents uiComponents;
+    @Autowired
+    private MetadataTools metadataTools;
 
     @Subscribe("tabSheet")
     public void onTabSheetSelectedChange(final JmixTabSheet.SelectedChangeEvent event) {
@@ -147,6 +168,68 @@ public class ProjectDetailView extends StandardDetailView<Project> {
     @Subscribe(id = "projectParticipantsDc", target = Target.DATA_CONTAINER)
     public void onParticipantsDcCollectionChange(final CollectionContainer.CollectionChangeEvent<ProjectParticipant> event) {
         notifications.show("[participantsDc] CollectionChangeEvent", event.getChangeType() + "");
+    }
+
+    @Subscribe
+    public void onReady(final ReadyEvent event) {
+        updateStatusFieldIcon();
+    }
+
+    @Subscribe("statusField")
+    public void onStatusFieldValueChange(final AbstractField.ComponentValueChangeEvent<JmixSelect<ProjectStatus>, ProjectStatus> event) {
+        updateStatusFieldIcon();
+    }
+
+    private void updateStatusFieldIcon() {
+        ProjectStatus status = statusField.getValue();
+        Icon icon = status == null ? null : switch (status) {
+            case OPEN -> {
+                Icon openIcon = VaadinIcon.WALLET.create();
+                openIcon.setColor("var(--lumo-success-color)");
+                yield openIcon;
+            }
+            case CLOSED -> {
+                Icon closeIcon = VaadinIcon.CLOSE.create();
+                closeIcon.setColor("var(--lumo-error-color)");
+                yield closeIcon;
+            }
+        };
+
+        statusField.setPrefixComponent(icon);
+    }
+
+    @Supply(to = "clientField", subject = "renderer")
+    private Renderer<Client> clientFieldRenderer() {
+        return new ComponentRenderer<>(client -> {
+            FlexLayout wrapper = uiComponents.create(FlexLayout.class);
+            wrapper.setAlignItems(FlexComponent.Alignment.CENTER);
+            wrapper.addClassNames(LumoUtility.Gap.MEDIUM);
+
+            String clientName = metadataTools.getInstanceName(client);
+
+            wrapper.add(
+                    createAvatar(clientName, client.getImage(), "var(--lumo-size-xs)"),
+                    new Text(clientName)
+            );
+
+            return wrapper;
+        });
+    }
+
+    private Avatar createAvatar(String name, @Nullable byte[] data, String size) {
+        Avatar avatar = uiComponents.create(Avatar.class);
+        avatar.setName(name);
+
+        if (data != null) {
+            StreamResource imageResource = new StreamResource("avatar.png",
+                    () -> new ByteArrayInputStream(data));
+            avatar.setImageResource(imageResource);
+        }
+
+        avatar.setWidth(size);
+        avatar.setHeight(size);
+
+        return avatar;
     }
 
 //    @ViewComponent

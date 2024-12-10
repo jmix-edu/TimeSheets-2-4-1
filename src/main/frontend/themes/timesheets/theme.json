@@ -1,4 +1,4 @@
 {
-  "parent": "jmix-lumo",
+  "parent": "my-awesome-theme",
   "lumoImports":["typography","color","spacing","badge","utility"]
 }

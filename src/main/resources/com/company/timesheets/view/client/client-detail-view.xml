@@ -18,40 +18,39 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
+        <vbox id="imageWrapper"
+              classNames="border rounded-m border-contrast-20"
+              alignItems="CENTER"
+              width="100%" maxWidth="30em">
+            <image id="image" height="10em"
+                   dataContainer="clientDc" property="image"
+                   alternateText="msg://com.company.timesheets.entity/Client.image"/>
 
-            <vbox id="imageWrapper"
-                  classNames="border rounded-m border-contrast-20"
-                  alignItems="CENTER"
-                  width="100%" maxWidth="30em">
-                <image id="image" height="10em"
-                       dataContainer="clientDc" property="image"
-                       alternateText="msg://com.company.timesheets.entity/Client.image"/>
+            <hbox id="uploadWrapper" expand="imageUpload" width="100%">
+                <fileUploadField id="imageUpload"
+                                 dataContainer="clientDc" property="image"
+                                 uploadIcon="UPLOAD_ALT"/>
+                <button id="uploadClearBtn" icon="CLOSE_BIG">
+                    <tooltip text="msg://uploadClearBtn.tooltip"/>
+                </button>
+            </hbox>
+        </vbox>
+        <textField id="nameField"
+                   dataContainer="clientDc" property="name"
+                   label="msg://com.company.timesheets.entity/Client.name"
+                   width="100%" maxWidth="30em"
+                   classNames="bordered-red">
+            <prefix>
+                <icon icon="USER_CARD"/>
+            </prefix>
+        </textField>
 
-                <hbox id="uploadWrapper" expand="imageUpload" width="100%">
-                    <fileUploadField id="imageUpload"
-                                     dataContainer="clientDc" property="image"
-                                     uploadIcon="UPLOAD_ALT"/>
-                    <button id="uploadClearBtn" icon="CLOSE_BIG">
-                        <tooltip text="msg://uploadClearBtn.tooltip"/>
-                    </button>
-                </hbox>
-            </vbox>
-
-            <textField id="nameField"
-                       dataContainer="clientDc" property="name"
-                       label="msg://com.company.timesheets.entity/Client.name"
-                       width="100%" maxWidth="30em">
-                <prefix>
-                    <icon icon="USER_CARD"/>
-                </prefix>
-            </textField>
-
-            <hr/>
-
+        <hr/>
         <details id="contactInformationDetails"
                  summaryText="msg://com.company.timesheets.entity/Client.contactInformation"
                  width="100%"
-                 opened="true">
+                 opened="true"
+        themeNames="non-collapsible summary-filled bordered">
             <formLayout dataContainer="contactInformationDc">
                 <responsiveSteps>
                     <responsiveStep minWidth="0" columns="1"/>
@@ -80,6 +79,9 @@
                 </textArea>
             </formLayout>
         </details>
+
+        <fragment class="com.company.timesheets.view.contactinformationfragment.ContactInformationFragment">
+        </fragment>
 
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

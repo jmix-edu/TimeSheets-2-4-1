@@ -20,9 +20,13 @@ repositories {
     maven {
         url 'https://global.repo.jmix.io/repository/public'
     }
+    mavenLocal()
 }
 
 dependencies {
+
+    implementation 'com.company:my-awesome-theme:1.0-SNAPSHOT'
+
     implementation 'io.jmix.core:jmix-core-starter'
     implementation 'io.jmix.data:jmix-eclipselink-starter'
     implementation 'io.jmix.security:jmix-security-starter'
