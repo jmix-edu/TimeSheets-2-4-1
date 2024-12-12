@@ -5,6 +5,9 @@
         <item view="ts_TimeEntry.my" title="msg://com.company.timesheets.view.timeentry/myTimeEntryListView.title"/>
         <item view="ts_Task.my" description="msg://com.company.timesheets/menu_config.ts_Task.my.description"
               title="msg://com.company.timesheets/menu_config.ts_Task.my.title"/>
+        <item view="ts_PdfViewerView" title="msg://com.company.timesheets.view.pdfviewer/pdfViewerView.title"/>
+        <item view="ts_ProgrammaticProjectsListView"
+              title="msg://com.company.timesheets.view.project.programmaticprojectslist/programmaticProjectsListView.title"/>
     </menu>
 
     <menu id="projects" title="msg://com.company.timesheets/menu.projects.title" opened="true"> <!-- Project Management -->
